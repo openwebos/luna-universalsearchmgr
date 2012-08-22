@@ -1,0 +1,14 @@
+{
+    "role": {
+        "exeName":"/usr/bin/LunaUniversalSearchMgr",
+        "type": "regular",
+        "allowedNames": ["com.palm.universalsearch"]
+    },
+    "permissions": [
+        {
+            "service":"com.palm.universalsearch",
+            "inbound":["*"],
+            "outbound":["*"]
+        }
+    ]
+}

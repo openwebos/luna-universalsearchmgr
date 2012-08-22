@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=com.palm.universalsearch
+Exec=/usr/bin/LunaUniversalSearchMgr
+Type=static
