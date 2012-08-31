@@ -1,0 +1,11 @@
+start on started filecache
+
+# Stop when the Software Update tool is about to install an update.  The tool
+# uses upstart to restart jobs when the installation is complete.
+stop on started start_update
+
+script
+    exec /usr/local/luna/LunaUniversalSearchMgr
+end script
+
+respawn

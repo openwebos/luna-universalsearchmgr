@@ -1,0 +1,70 @@
+{ 
+    "UniversalSearchList":[
+                 				{ 
+				 					"id": "google", 
+				 					"category": "search",
+				 					"displayName": "Google",
+				 					"iconFilePath":"/usr/lib/luna/system/luna-applauncher/images/search-icon-google.png",
+				 					"loc_url":"http://www.google.com/search?q=#{searchTerms}",
+				 					"type":"web",
+				 					"enabled":true,
+				 					"version":2
+				 				},
+				 				{ 
+				 					"id": "wikipedia", 
+				 					"category": "search",
+				 					"displayName": "Wikipedia",
+				 					"iconFilePath":"/usr/lib/luna/system/luna-applauncher/images/search-icon-wikipedia.png",
+				 					"url":"http://en.wikipedia.org/wiki/Special:Search?search=#{searchTerms}",
+				 					"type":"web",
+				 					"enabled":true
+				 				},
+				 				{ 
+				 					"id": "twitter", 
+				 					"category": "search",
+				 					"displayName": "Twitter",
+				 					"iconFilePath":"/usr/lib/luna/system/luna-applauncher/images/search-icon-twitter.png",
+				 					"url":"http://search.twitter.com/search?q=#{searchTerms}",
+				 					"type":"web",
+				 					"enabled":true
+				 				},
+				 				{
+									"category": "search",
+									"displayName": "CNN",
+									"enabled": false,
+									"iconFilePath": "/usr/lib/luna/system/luna-applauncher/images/search-icon-cnn.png",
+									"id": "cnn",
+									"type": "web",
+									"url": "http://www.cnn.com/search/?query=#{searchTerms}"
+								},
+								{
+									"category": "search",
+									"displayName": "Amazon",
+									"enabled": false,
+									"iconFilePath": "/usr/lib/luna/system/luna-applauncher/images/search-icon-amazon.png",
+									"id": "amazon",
+									"type": "web",
+									"url": "http://www.amazon.com/s/?k=#{searchTerms}",
+									"version":2
+								},
+								{
+									"category": "search",
+									"displayName": "IMDb",
+									"enabled": false,
+									"iconFilePath": "/usr/lib/luna/system/luna-applauncher/images/search-icon-imdb.png",
+									"id": "imdb",
+									"type": "web",
+									"url": "http://www.imdb.com/find?q=#{searchTerms}",
+									"version":2
+								}
+               			],
+    "SearchPreference": {
+                                "GAL":false,
+								"defaultSearchEngine":"google",
+								"ContactSearch":true,
+								"AppSearch":true,
+								"defaultSearch":true,
+                                "version":1
+                            }
+               			
+}
