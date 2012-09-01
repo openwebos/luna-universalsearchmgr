@@ -1,6 +1,39 @@
 Summary
 =======
-LunaUniversalSearchMgr contains the Just Type Service Component supporting the Universal Search feature.
+Contains the Just Type Service Component supporting the Universal Search feature.
+
+LunaUniversalSearchMgr
+======================
+
+This component supports the following methods, which are described in detail in the generated documentation:  
+
+*  com.palm.universalsearch/addOptionalSearchDesc
+*  com.palm.universalsearch/addSearchItem
+*  com.palm.universalsearch/clearOptionalSearchList
+*  com.palm.universalsearch/getAllSearchPreference
+*  com.palm.universalsearch/getOptionalSearchList
+*  com.palm.universalsearch/getSearchPreference
+*  com.palm.universalsearch/getUniversalSearchList
+*  com.palm.universalsearch/getVersion
+*  com.palm.universalsearch/removeOptionalSearchItem
+*  com.palm.universalsearch/removeSearchItem
+*  com.palm.universalsearch/reorderSearchItem
+*  com.palm.universalsearch/setSearchPreference
+*  com.palm.universalsearch/updateAllSearchItems
+*  com.palm.universalsearch/updateSearchItem
+
+How to Build on Linux
+=====================
+
+### Building the latest "stable" version
+
+Clone the repository openwebos/build-webos and follow the instructions in the README file to make a specific component:
+        make luna-universalsearchmgr
+
+### Building your local clone
+
+*  Follow the directions to build the latest "stable" version
+*  Follow the directions to configure the build to use your local clone
 
 
 # Copyright and License Information
