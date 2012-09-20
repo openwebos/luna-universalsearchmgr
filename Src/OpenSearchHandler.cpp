@@ -25,6 +25,7 @@
 #include <lunaservice.h>
 #include <cjson/json.h>
 #include <libxml/xmlreader.h>
+#include <unistd.h>
 #include "OpenSearchHandler.h"
 #include "SearchItemsManager.h"
 #include "UniversalSearchService.h"
