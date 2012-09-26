@@ -1,6 +1,6 @@
 {
     "role": {
-        "exeName":"/usr/bin/LunaUniversalSearchMgr",
+        "exeName":"@WEBOS_INSTALL_SBINDIR@/LunaUniversalSearchMgr",
         "type": "regular",
         "allowedNames": ["com.palm.universalsearch"]
     },

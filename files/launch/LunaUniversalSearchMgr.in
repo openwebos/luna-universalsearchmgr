@@ -5,12 +5,7 @@ start on started filecache
 stop on started start_update
 
 script
-    if grep -qs "qemux86" /etc/hostname ; then
-    else
-        export LD_PRELOAD=/usr/lib/libmemcpy.so
-    fi
-
-	exec /usr/bin/LunaUniversalSearchMgr
+	exec @WEBOS_INSTALL_SBINDIR@/LunaUniversalSearchMgr
 end script
 
 respawn

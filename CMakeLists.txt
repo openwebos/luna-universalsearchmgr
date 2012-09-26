@@ -18,7 +18,7 @@
 
 cmake_minimum_required(VERSION 2.8.7)
 
-project(luna-universalsearchmgr CXX)
+project(LunaUniversalSearchMgr CXX)
 
 include(webOS/webOS)
 webos_modules_init(1 0 0 QUALIFIER RC2)
@@ -52,7 +52,6 @@ pkg_check_modules(LS2 REQUIRED luna-service2)
 include_directories(LS2_INCLUDE_DIRS)
 webos_add_compiler_flags(ALL ${LS2_CFLAGS})
 
-webos_build_pkgconfig()
 webos_config_build_doxygen(doc Doxyfile)
 
 # -- no way to disable warn_unused_result right now.
@@ -63,8 +62,8 @@ webos_add_linker_options(ALL --no-undefined)
 include_directories(include/public)
 
 file(GLOB SOURCE_FILES Src/*.cpp)
-add_executable(luna-universalsearchmgr ${SOURCE_FILES})
-target_link_libraries(luna-universalsearchmgr 
+add_executable(LunaUniversalSearchMgr ${SOURCE_FILES})
+target_link_libraries(LunaUniversalSearchMgr 
                       ${GLIB2_LDFLAGS} 
                       ${GTHREAD2_LDFLAGS}
                       ${GXML2_LDFLAGS}
