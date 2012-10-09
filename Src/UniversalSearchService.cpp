@@ -53,6 +53,24 @@ static bool cbRemoveOptionalSearchItem(LSHandle* lshandle, LSMessage *message, v
 static bool cbUpdateAllSearchItems(LSHandle* lshandle, LSMessage *message, void *user_data);
 
 
+/*! \page com_palm_universalsearch Service API com.palm.universalsearch
+ *
+ * Public methods:
+ *  - \ref com_palm_universalsearch_add_optional_search_desc
+ *  - \ref com_palm_universalsearch_add_search_item
+ *  - \ref com_palm_universalsearch_clear_optional_search_list
+ *  - \ref com_palm_universalsearch_get_all_search_preference
+ *  - \ref com_palm_universalsearch_get_optional_search_list
+ *  - \ref com_palm_universalsearch_get_search_preference
+ *  - \ref com_palm_universalsearch_get_universal_search_list
+ *  - \ref com_palm_universalsearch_get_version
+ *  - \ref com_palm_universalsearch_remove_optional_search_item
+ *  - \ref com_palm_universalsearch_remove_search_item
+ *  - \ref com_palm_universalsearch_reorder_search_item
+ *  - \ref com_palm_universalsearch_set_search_preference
+ *  - \ref com_palm_universalsearch_update_all_search_items
+ *  - \ref com_palm_universalsearch_update_search_item
+ */
 static LSMethod s_methods[]  = {
 	{ "getVersion",		cbGetVersion},
 	{ "getUniversalSearchList", cbGetUniversalSearchList},
@@ -196,6 +214,47 @@ void UniversalSearchService::setLocale(const std::string& locale)
 	m_locale = locale;
 }
 
+/*!
+\page com_palm_universalsearch
+\n
+\section com_palm_universalsearch_get_version getVersion
+
+\e Public.
+
+com.palm.universalsearch/getVersion
+
+Get the version of Universal Search.
+
+\subsection com_palm_universalsearch_get_version_syntax Syntax:
+\code
+{
+}
+\endcode
+
+\subsection com_palm_universalsearch_get_version_returns Returns:
+\code
+{
+    "returnValue": boolean,
+    "version": string
+}
+\endcode
+
+\param returnValue Indicates if the call was succesful.
+\param version The version of Universal Search.
+
+\subsection com_palm_universalsearch_get_version_examples Examples:
+\code
+luna-send -n 1 -f luna://com.palm.universalsearch/getVersion '{ }'
+\endcode
+
+Example response for a succesful call:
+\code
+{
+    "returnValue": true,
+    "version": "1.0"
+}
+\endcode
+*/
 bool cbGetVersion(LSHandle* lshandle, LSMessage *message, void *user_data) {
 
 	LSError lserror;
@@ -215,6 +274,289 @@ bool cbGetVersion(LSHandle* lshandle, LSMessage *message, void *user_data) {
 	json_object_put(response);
 	return true;
 }
+
+/*!
+\page com_palm_universalsearch
+\n
+\section com_palm_universalsearch_get_universal_search_list getUniversalSearchList
+
+\e Public.
+
+com.palm.universalsearch/getUniversalSearchList
+
+Get a list of items related to the Universal Search feature.
+
+\subsection com_palm_universalsearch_get_universal_search_list_syntax Syntax:
+\code
+{
+    "subscribe": boolean
+}
+\endcode
+
+\param subscribe Set to true to receive notifications when items in the list change.
+
+\subsection com_palm_universalsearch_get_universal_search_list_returns Returns:
+\code
+{
+    "returnValue": boolean,
+    "UniversalSearchList": [ object array ],
+    "ActionList": [ object array ],
+    "DBSearchItemList": [ object array ],
+    "defaultSearchEngine": string,
+    "subscribed": boolean
+}
+\endcode
+
+\param returnValue Indicates if the call was sucessful.
+\param UniversalSearchList Contains objects of search engines used by Universal Search.
+\param ActionList List of action providers.
+\param DBSearchItemList Items related to database searches.
+\param defaultSearchEngine The default search engine.
+\param subscribed True if subscribed to receive notifications items in the list change.
+
+\subsection com_palm_universalsearch_get_universal_search_list_examples Examples:
+\code
+luna-send -n 1 -f luna://com.palm.universalsearch/getUniversalSearchList '{ "subscribe": false }'
+\endcode
+
+Example response for a succesful call:
+\code
+{
+    "returnValue": true,
+    "UniversalSearchList": [
+        {
+            "id": "google",
+            "displayName": "Google",
+            "iconFilePath": "\/usr\/lib\/luna\/system\/luna-applauncher\/images\/search-icon-google.png",
+            "url": "http:\/\/www.google.com\/search?client=ms-palm-webOS&channel=iss&q=#{searchTerms}",
+            "suggestURL": "",
+            "launchParam": "",
+            "type": "web",
+            "enabled": true
+        },
+        {
+            "id": "map",
+            "displayName": "Maps",
+            "iconFilePath": "\/usr\/lib\/luna\/system\/luna-applauncher\/images\/search-icon-maps.png",
+            "url": "com.palm.app.maps",
+            "suggestURL": "",
+            "launchParam": "query",
+            "type": "app",
+            "enabled": true
+        },
+        {
+            "id": "wikipedia",
+            "displayName": "Wikipedia",
+            "iconFilePath": "\/usr\/lib\/luna\/system\/luna-applauncher\/images\/search-icon-wikipedia.png",
+            "url": "http:\/\/en.wikipedia.org\/wiki\/Special:Search?search=#{searchTerms}",
+            "suggestURL": "",
+            "launchParam": "",
+            "type": "web",
+            "enabled": true
+        },
+        {
+            "id": "twitter",
+            "displayName": "Twitter",
+            "iconFilePath": "\/usr\/lib\/luna\/system\/luna-applauncher\/images\/search-icon-twitter.png",
+            "url": "http:\/\/search.twitter.com\/search?q=#{searchTerms}",
+            "suggestURL": "",
+            "launchParam": "",
+            "type": "web",
+            "enabled": true
+        },
+        {
+            "id": "cnn",
+            "displayName": "CNN",
+            "iconFilePath": "\/usr\/lib\/luna\/system\/luna-applauncher\/images\/search-icon-cnn.png",
+            "url": "http:\/\/www.cnn.com\/search\/?query=#{searchTerms}",
+            "suggestURL": "",
+            "launchParam": "",
+            "type": "web",
+            "enabled": false
+        },
+        {
+            "id": "amazon",
+            "displayName": "Amazon",
+            "iconFilePath": "\/usr\/lib\/luna\/system\/luna-applauncher\/images\/search-icon-amazon.png",
+            "url": "http:\/\/www.amazon.com\/s\/?k=#{searchTerms}",
+            "suggestURL": "",
+            "launchParam": "",
+            "type": "web",
+            "enabled": false
+        },
+        {
+            "id": "imdb",
+            "displayName": "IMDb",
+            "iconFilePath": "\/usr\/lib\/luna\/system\/luna-applauncher\/images\/search-icon-imdb.png",
+            "url": "http:\/\/www.imdb.com\/find?q=#{searchTerms}",
+            "suggestURL": "",
+            "launchParam": "",
+            "type": "web",
+            "enabled": false
+        },
+        {
+            "id": "com.palm.app.enyo-findapps",
+            "displayName": "HP App Catalog",
+            "iconFilePath": "\/media\/cryptofs\/apps\/usr\/palm\/applications\/com.palm.app.enyo-findapps\/icon.png",
+            "url": "com.palm.app.enyo-findapps",
+            "suggestURL": "",
+            "launchParam": "{ \"common\": { \"sceneType\": \"search\", \"params\": { \"type\": \"query\", \"search\": \"#{searchTerms}\" } } }",
+            "type": "app",
+            "enabled": true
+        }
+    ],
+    "ActionList": [
+        {
+            "id": "com.palm.app.messaging",
+            "displayName": "New Message",
+            "iconFilePath": "\/media\/cryptofs\/apps\/usr\/palm\/applications\/com.palm.app.messaging\/resources\/en\/..\/..\/icon.png",
+            "url": "com.palm.app.messaging",
+            "launchParam": "{ \"compose\": { \"messageText\": \"#{searchTerms}\" } }",
+            "enabled": true
+        },
+        {
+            "id": "com.palm.app.email",
+            "displayName": "New Email",
+            "iconFilePath": "\/media\/cryptofs\/apps\/usr\/palm\/applications\/com.palm.app.email\/resources\/en\/..\/..\/icon.png",
+            "url": "com.palm.app.email",
+            "launchParam": "text",
+            "enabled": true
+        },
+        {
+            "id": "com.palm.app.calendar",
+            "displayName": "New Event",
+            "iconFilePath": "\/media\/cryptofs\/apps\/usr\/palm\/applications\/com.palm.app.calendar\/resources\/en\/..\/..\/images\/icon.png",
+            "url": "com.palm.app.calendar",
+            "launchParam": "quickLaunchText",
+            "enabled": true
+        },
+        {
+            "id": "com.palm.app.notes",
+            "displayName": "New Memo",
+            "iconFilePath": "\/media\/cryptofs\/apps\/usr\/palm\/applications\/com.palm.app.notes\/resources\/en\/..\/..\/icon.png",
+            "url": "com.palm.app.notes",
+            "launchParam": "text",
+            "enabled": true
+        }
+    ],
+    "DBSearchItemList": [
+        {
+            "id": "com.palm.app.browser",
+            "displayName": "Bookmarks & History",
+            "iconFilePath": "\/usr\/palm\/applications\/com.palm.app.browser\/resources\/en\/..\/..\/icon.png",
+            "launchParam": "url",
+            "launchParamDbField": "url",
+            "dbQuery": [
+                {
+                    "method": "search",
+                    "params": {
+                        "query": {
+                            "from": "com.palm.browserbookmarks:1",
+                            "limit": 20,
+                            "where": [
+                                {
+                                    "collate": "primary",
+                                    "op": "?",
+                                    "prop": "searchText",
+                                    "val": ""
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "method": "search",
+                    "params": {
+                        "query": {
+                            "from": "com.palm.browserhistory:1",
+                            "limit": 50,
+                            "where": [
+                                {
+                                    "collate": "primary",
+                                    "op": "?",
+                                    "prop": "searchText",
+                                    "val": ""
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "displayFields": [
+                "title",
+                "url"
+            ],
+            "batchQuery": true,
+            "enabled": true
+        },
+        {
+            "id": "com.palm.app.email",
+            "displayName": "Email",
+            "iconFilePath": "\/media\/cryptofs\/apps\/usr\/palm\/applications\/com.palm.app.email\/resources\/en\/..\/..\/icon.png",
+            "launchParam": "emailId",
+            "launchParamDbField": "_id",
+            "dbQuery": {
+                "desc": true,
+                "from": "com.palm.email:1",
+                "limit": 20,
+                "orderBy": "timestamp",
+                "where": [
+                    {
+                        "op": "=",
+                        "prop": "flags.visible",
+                        "val": true
+                    },
+                    {
+                        "collate": "primary",
+                        "op": "?",
+                        "prop": "searchText",
+                        "val": ""
+                    }
+                ]
+            },
+            "displayFields": [
+                "from.name",
+                "subject"
+            ],
+            "batchQuery": false,
+            "enabled": true
+        },
+        {
+            "id": "com.palm.app.calendar",
+            "displayName": "Calendar Events",
+            "iconFilePath": "\/media\/cryptofs\/apps\/usr\/palm\/applications\/com.palm.app.calendar\/resources\/en\/..\/..\/images\/icon.png",
+            "launchParam": "showEventDetail",
+            "launchParamDbField": "_id",
+            "dbQuery": {
+                "desc": false,
+                "from": "com.palm.calendarevent:1",
+                "limit": 20,
+                "orderBy": "subject",
+                "where": [
+                    {
+                        "collate": "primary",
+                        "op": "?",
+                        "prop": "searchText",
+                        "val": ""
+                    }
+                ]
+            },
+            "displayFields": [
+                "subject",
+                {
+                    "name": "dtstart",
+                    "type": "timestamp"
+                }
+            ],
+            "batchQuery": false,
+            "enabled": true
+        }
+    ],
+    "defaultSearchEngine": "google",
+    "subscribed": false
+}
+\endcode
+*/
 
 bool cbGetUniversalSearchList(LSHandle* lshandle, LSMessage *message, void *user_data) {
 	LSError lserror;
@@ -255,6 +597,63 @@ bool cbGetUniversalSearchList(LSHandle* lshandle, LSMessage *message, void *user
 	return true;
 }
 
+/*!
+\page com_palm_universalsearch
+\n
+\section com_palm_universalsearch_update_search_item updateSearchItem
+
+\e Public.
+
+com.palm.universalsearch/updateSearchItem
+
+Enable or disable a search item, and optionally set is as the default search engine.
+
+\subsection com_palm_universalsearch_update_search_item_syntax Syntax:
+\code
+{
+    "category": string,
+    "id": string,
+    "enabled": boolean,
+    "setDefault": boolean
+}
+\endcode
+
+\param category Category of the item. "search", "action" or "dbsearch". \e Required.
+\param id ID of the item. \e Required.
+\param enabled True to enable the item, false to disable. \e Required.
+\param setDefault True if a \e search category item should be set as the default search engine.
+
+\subsection com_palm_universalsearch_update_search_item_returns Returns:
+\code
+{
+    "returnValue": boolean,
+    "errorMessage": string
+}
+\endcode
+
+\param returnValue Indicates if the call was succesful.
+\param errorMessage Describes the error if call was not succesful.
+
+\subsection com_palm_universalsearch_update_search_item_examples Examples:
+\code
+una-send -n 1 -f luna://com.palm.universalsearch/updateSearchItem '{ "category": "search", "id": "wikipedia", "enabled": true, "setDefault": true }'
+\endcode
+
+Example response for a succesful call:
+\code
+{
+    "returnValue": true
+}
+\endcode
+
+Example response for a failed call:
+\code
+{
+    "returnValue": false,
+    "errorMessage": "Unable to get data"
+}
+\endcode
+*/
 bool cbUpdateSearchItem(LSHandle* lshandle, LSMessage *message, void *user_data) {
 	LSError lserror;
 	json_object* response = json_object_new_object();
@@ -329,6 +728,61 @@ bool cbUpdateSearchItem(LSHandle* lshandle, LSMessage *message, void *user_data)
 		
 }
 
+/*!
+\page com_palm_universalsearch
+\n
+\section com_palm_universalsearch_update_all_search_items updateAllSearchItems
+
+\e Public.
+
+com.palm.universalsearch/updateAllSearchItems
+
+Enable or disable all search items for a category.
+
+\subsection com_palm_universalsearch_update_all_search_items_syntax Syntax:
+\code
+{
+    "category": string,
+    "enabled": boolean
+}
+\endcode
+
+\param category Category of items to enable or disable. "search", "action" or "dbsearch".
+\param enabled True if items are enabled and false if disabled.
+
+\note If "search" category items are enabled with this method, all optional search items are added to the list of search items.
+
+\subsection com_palm_universalsearch_update_all_search_items_returns Returns:
+\code
+{
+    "returnValue": boolean,
+    "errorMessage": string
+}
+\endcode
+
+\param returnValue Indicates if the call was succesful.
+\param errorMessage Describes the error if call was not succesful.
+
+\subsection com_palm_universalsearch_update_all_search_items_examples Examples:
+\code
+luna-send -n 1 -f luna://com.palm.universalsearch/updateAllSearchItems '{ "category": "action", "enabled": true }'
+\endcode
+
+Example response for a succesful call:
+\code
+{
+    "returnValue": true
+}
+\endcode
+
+Example response for a failed call:
+\code
+{
+    "returnValue": false,
+    "errorMessage": "Unable to get data"
+}
+\endcode
+*/
 bool cbUpdateAllSearchItems(LSHandle* lshandle, LSMessage *message, void *user_data) {
 	LSError lserror;
 	json_object* response = json_object_new_object();
@@ -404,6 +858,111 @@ bool cbUpdateAllSearchItems(LSHandle* lshandle, LSMessage *message, void *user_d
 
 }
 
+/*!
+\page com_palm_universalsearch
+\n
+\section com_palm_universalsearch_add_search_item addSearchItem
+
+\e Public.
+
+com.palm.universalsearch/addSearchItem
+
+Add a search item, action provider or a DB search item to Universal Search.
+
+The syntax is different for each of the three categories, "search", "action", or "dbsearch".
+
+\subsection com_palm_universalsearch_add_search_item_syntax_search Syntax for a search item:
+\code
+{
+    "category": string,
+    "id": string,
+    "enabled": boolean,
+    "iconFilePath": string,
+    "displayName": string,
+    "url": string,
+    "launchParam": string,
+    "type": string,
+    "suggestURL": string,
+    "setDefault": boolean
+}
+\endcode
+
+\subsection com_palm_universalsearch_add_search_item_syntax_action Syntax for an action provider:
+\code
+{
+    "category": string,
+    "id": string,
+    "version": string,
+    "enabled": boolean,
+    "iconFilePath": string,
+    "displayName": string,
+    "url": string,
+    "launchParam": string
+}
+\endcode
+
+\subsection com_palm_universalsearch_add_search_item_syntax_dbsearch Syntax for a database search item:
+\code
+{
+    "category": string,
+    "id": string,
+    "version": string,
+    "enabled": boolean,
+    "dbQuery": { object },
+    "displayName": string,
+    "displayFields": [ string array ],
+    "launchParam": "string",
+    "launchParamDbField": "string",
+    "batchQuery": boolean,
+    "iconFilePath": string
+}
+\endcode
+
+\subsection com_palm_universalsearch_add_search_item_returns Returns:
+\code
+{
+    "returnValue": boolean,
+    "errorCode": int,
+    "errorMessage": string
+}
+\endcode
+
+\param returnValue Indicates if the call was succesful.
+\param errorCode Code for the error.
+\param errorMessage Describes the error if call was not succesful.
+
+\subsection com_palm_universalsearch_add_search_item_examples Examples:
+\code
+luna-send -n 1 -f luna://com.palm.universalsearch/addSearchItem '{
+    "category": "search",
+    "id": "google",
+    "enabled": true,
+    "iconFilePath": "\/usr\/lib\/luna\/system\/luna-applauncher\/images\/search-icon-google.png",
+    "displayName": "Google",
+    "url": "http:\/\/www.google.com\/search?client=ms-palm-webOS&channel=iss&q=#{searchTerms}",
+    "launchParam": "",
+    "type": "web",
+    "suggestURL": "",
+    "setDefault": true
+}'
+\endcode
+
+Example response for a succesful call:
+\code
+{
+    "returnValue": true
+}
+\endcode
+
+Example response for a failed call:
+\code
+{
+    "returnValue": false,
+    "errorMessage": "Unable to add item"
+}
+\endcode
+*/
+
 bool cbAddSearchItem(LSHandle* lshandle, LSMessage *message, void *user_data) {
 	LSError lserror;
 	json_object* response = json_object_new_object();
@@ -477,6 +1036,59 @@ bool cbAddSearchItem(LSHandle* lshandle, LSMessage *message, void *user_data) {
 	return true;
 }
 
+/*!
+\page com_palm_universalsearch
+\n
+\section com_palm_universalsearch_remove_search_item removeSearchItem
+
+\e Public.
+
+com.palm.universalsearch/removeSearchItem
+
+Remove a search item from Universal Search.
+
+\subsection com_palm_universalsearch_remove_search_item_syntax Syntax:
+\code
+{
+    "category": "search",
+    "id": "google"
+}
+\endcode
+
+\param category Search item category. "search", "action" or "dbsearch".
+\param id The ID of the item to remove.
+
+\subsection com_palm_universalsearch_remove_search_item_returns Returns:
+\code
+{
+    "returnValue": boolean,
+    "errorMessage": string
+}
+\endcode
+
+\param returnValue Indicates if the call was succesful.
+\param errorMessage Describes the error if call was not succesful.
+
+\subsection com_palm_universalsearch_remove_search_item_examples Examples:
+\code
+luna-send -n 1 -f luna://com.palm.universalsearch/removeSearchItem '{ "category": "search", "id": "google" }'
+\endcode
+
+Example response for a succesful call:
+\code
+{
+    "returnValue": true
+}
+\endcode
+
+Example response for a failed call:
+\code
+{
+    "returnValue": false,
+    "errorMessage": "Unable to remove item"
+}
+\endcode
+*/
 bool cbRemoveSearchItem(LSHandle* lshandle, LSMessage *message, void *user_data) {
 	LSError lserror;
 	json_object* response = json_object_new_object();
@@ -548,6 +1160,61 @@ bool cbRemoveSearchItem(LSHandle* lshandle, LSMessage *message, void *user_data)
 	return true;
 }
 
+/*!
+\page com_palm_universalsearch
+\n
+\section com_palm_universalsearch_reorder_search_item reorderSearchItem
+
+\e Public.
+
+com.palm.universalsearch/reorderSearchItem
+
+Move an item in the search items list.
+
+\subsection com_palm_universalsearch_reorder_search_item_syntax Syntax:
+\code
+{
+    "category": "search",
+    "id": "google",
+    "toIndex": int
+}
+\endcode
+
+\param category Search item category. "search", "action" or "dbsearch".
+\param id The ID of the item to move.
+\param toIndex New position for the item.
+
+\subsection com_palm_universalsearch_reorder_search_item_returns Returns:
+\code
+{
+    "returnValue": boolean,
+    "errorMessage": string
+}
+\endcode
+
+\param returnValue Indicates if the call was succesful.
+\param errorMessage Describes the error if call was not succesful.
+
+\subsection com_palm_universalsearch_reorder_search_item_examples Examples:
+\code
+luna-send -n 1 -f luna://com.palm.universalsearch/reorderSearchItem '{ "category": "search", "id": "google", "toIndex": 2 }'
+\endcode
+
+Example response for a succesful call:
+\code
+{
+    "returnValue": true
+}
+\endcode
+
+Example response for a failed call:
+\code
+{
+    "returnValue": false,
+    "errorMessage": "Unable to reorder item"
+}
+\endcode
+*/
 bool cbReorderSearchItem(LSHandle* lshandle, LSMessage *message, void *user_data) 
 {
 	LSError lserror;
@@ -660,6 +1327,58 @@ void UniversalSearchService::postSearchListChange(const char* eventName)
 	json_object_put(response);
 }
 
+/*!
+\page com_palm_universalsearch
+\n
+\section com_palm_universalsearch_get_search_preference getSearchPreference
+
+\e Public.
+
+com.palm.universalsearch/getSearchPreference
+
+Get a single search preference.
+
+\subsection com_palm_universalsearch_get_search_preference_syntax Syntax:
+\code
+{
+    "key": string"
+}
+\endcode
+
+\param key Name of the preference.
+
+\subsection com_palm_universalsearch_get_search_preference_returns Returns:
+\code
+{
+    "<key>": string,
+    "returnValue": boolean
+}
+\endcode
+
+\param <key> The preference that was queried for.
+\param returnValue Indicates if the call was succesful.
+
+\subsection com_palm_universalsearch_get_search_preference_examples Examples:
+\code
+luna-send -n 1 -f luna://com.palm.universalsearch/getSearchPreference '{ "key": "defaultSearchEngine" }'
+\endcode
+
+Example response for a succesful call:
+\code
+{
+    "defaultSearchEngine": "google",
+    "returnValue": true
+}
+\endcode
+
+Example response for a failed call:
+\code
+{
+    "returnValue": false
+}
+\endcode
+*/
+
 bool cbGetSearchPreference(LSHandle* lshandle, LSMessage *message, void *user_data)
 {
 	LSError lserror;
@@ -714,6 +1433,60 @@ bool cbGetSearchPreference(LSHandle* lshandle, LSMessage *message, void *user_da
 	return true;
 
 }
+
+/*!
+\page com_palm_universalsearch
+\n
+\section com_palm_universalsearch_get_all_search_preference getAllSearchPreference
+
+\e Public.
+
+com.palm.universalsearch/getAllSearchPreference
+
+Get all search preferences.
+
+\subsection com_palm_universalsearch_get_all_search_preference_syntax Syntax:
+\code
+{
+    "subscribe": boolean
+}
+\endcode
+
+\param subscribe Set to true to receive notifications when search preferences change.
+
+\subsection com_palm_universalsearch_get_all_search_preference_returns Returns:
+\code
+{
+    "SearchPreference": { object },
+    "subscribed": boolean,
+    "returnValue": boolean
+}
+\endcode
+
+\param SearchPreference Object containing the search preferences.
+\param subscribed True if subscribed to receive notifications when search preferences change.
+\param returnValue Indicates if the call was sucessful.
+
+\subsection com_palm_universalsearch_get_all_search_preference_examples Examples:
+\code
+luna-send -n 1 -f luna://com.palm.universalsearch/getAllSearchPreference '{ }'
+\endcode
+
+Example response for a succesful call:
+\code
+{
+    "SearchPreference": {
+        "AppSearch": "true",
+        "ContactSearch": "true",
+        "GAL": "false",
+        "defaultSearch": "true",
+        "defaultSearchEngine": "google"
+    },
+    "subscribed": false,
+    "returnValue": true
+}
+\endcode
+*/
 
 bool cbGetAllSearchPreference(LSHandle* lshandle, LSMessage *message, void *user_data)
 {
@@ -771,6 +1544,53 @@ bool cbGetAllSearchPreference(LSHandle* lshandle, LSMessage *message, void *user
 	
 }
 
+/*!
+\page com_palm_universalsearch
+\n
+\section com_palm_universalsearch_set_search_preference setSearchPreference
+
+\e Public.
+
+com.palm.universalsearch/setSearchPreference
+
+Add a new or change an existing search preference.
+
+\subsection com_palm_universalsearch_set_search_preference_syntax Syntax:
+\code
+{
+    "key": string,
+    "value": string
+}
+\endcode
+
+\param key Key for the preference.
+\param value Value for the preference.
+
+\subsection com_palm_universalsearch_set_search_preference_returns Returns:
+\code
+{
+    "returnValue": boolean
+}
+\endcode
+
+\param returnValue Indicates if the call was succesful.
+
+\subsection com_palm_universalsearch_set_search_preference_examples Examples:
+\code
+luna-send -n 1 -f luna://com.palm.universalsearch/setSearchPreference '{ "key": "GAL", "value": "aNewValue" }'
+\endcode
+
+Example response for a succesful call:
+\code
+\endcode
+
+Example response for a failed call:
+\code
+{
+    "returnValue": false
+}
+\endcode
+*/
 bool cbSetSearchPreference(LSHandle* lshandle, LSMessage *message, void *user_data)
 {
 	LSError lserror;
@@ -1590,7 +2410,57 @@ bool UniversalSearchService::cbAppMgrGetAppInfo(LSHandle* lshandle, LSMessage *m
 	
 }
 
+/*!
+\page com_palm_universalsearch
+\n
+\section com_palm_universalsearch_add_optional_search_desc addOptionalSearchDesc
 
+\e Public.
+
+com.palm.universalsearch/addOptionalSearchDesc
+
+Add a new search engine to optional search items.
+
+\subsection com_palm_universalsearch_add_optional_search_desc_syntax Syntax:
+\code
+{
+    "xmlUrl": string
+}
+\endcode
+
+\param xmlUrl Path to remote XML file.
+
+\subsection com_palm_universalsearch_add_optional_search_desc_returns Returns:
+\code
+{
+    "returnValue": boolean,
+    "errorMessage": string
+}
+\endcode
+
+\param returnValue Indicates if the call was succesful.
+\param errorMessage Describes the error if call was not succesful.
+
+\subsection com_palm_universalsearch_add_optional_search_desc_examples Examples:
+\code
+luna-send -n 1 -f luna://com.palm.universalsearch/addOptionalSearchDesc '{ "xmlUrl": "http://path.to.remote.xml" }'
+\endcode
+
+Example response for a succesful call:
+\code
+{
+    "returnValue": true
+}
+\endcode
+
+Example response for a failed call:
+\code
+{
+    "returnValue": false,
+    "errorMessage": "No xmlUrl parameter, invalid call"
+}
+\endcode
+*/
 static bool cbAddOptionalSearchDesc(LSHandle* lshandle, LSMessage *message, void *user_data) 
 {
     LSError lserror;
@@ -1674,7 +2544,54 @@ done:
    return true;
 }
 
+/*!
+\page com_palm_universalsearch
+\n
+\section com_palm_universalsearch_get_optional_search_list getOptionalSearchList
 
+\e Public.
+
+com.palm.universalsearch/getOptionalSearchList
+
+Get the list of open optional searches.
+
+\subsection  com_palm_universalsearch_get_optional_search_list_syntax Syntax:
+\code
+{
+    "subscribe": boolean
+}
+\endcode
+
+\param subscribe Set to true to receive notifications when items in the optional search list change.
+
+\subsection com_palm_universalsearch_get_optional_search_list_returns Returns:
+\code
+{
+    "Options": [ array ],
+    "subscribed": boolean,
+    "returnValue": boolean
+}
+\endcode
+
+\param Options An array containing the search options.
+\param subscribed True if subscribed to receive notifications when search preferences change.
+\param returnValue Indicates if the call was sucessful.
+
+\subsection  com_palm_universalsearch_get_optional_search_list_examples Examples:
+\code
+luna-send -n 1 -f luna://com.palm.universalsearch/getOptionalSearchList '{ }'
+\endcode
+
+Example response for a succesful call:
+\code
+{
+    "Options": [
+    ],
+    "subscribed": false,
+    "returnValue": true
+}
+\endcode
+*/
 static bool cbGetOptionalSearchList(LSHandle* lshandle, LSMessage *message, void *user_data)
 {
     LSError lserror;
@@ -1706,6 +2623,44 @@ static bool cbGetOptionalSearchList(LSHandle* lshandle, LSMessage *message, void
     return true;
 }
 
+/*!
+\page com_palm_universalsearch
+\n
+\section com_palm_universalsearch_clear_optional_search_list clearOptionalSearchList
+
+\e Public.
+
+com.palm.universalsearch/clearOptionalSearchList
+
+Clear the list of optional search items.
+
+\subsection com_palm_universalsearch_clear_optional_search_list_syntax Syntax:
+\code
+{
+}
+\endcode
+
+\subsection com_palm_universalsearch_clear_optional_search_list_returns Returns:
+\code
+{
+    "returnValue": boolean
+}
+\endcode
+
+\param returnValue Indicates if the call was succesful.
+
+\subsection com_palm_universalsearch_clear_optional_search_list_examples Examples:
+\code
+luna-send -n 1 -f luna://com.palm.universalsearch/clearOptionalSearchList '{ }'
+\endcode
+
+Example response for a succesful call:
+\code
+{
+    "returnValue": true
+}
+\endcode
+*/
 static bool cbClearOptionalSearchList(LSHandle* lshandle, LSMessage *message, void *user_data)
 {
     LSError lserror;
@@ -1765,6 +2720,57 @@ void UniversalSearchService::postOptionalSearchListChange()
 	json_object_put(response);
 }
 
+/*!
+\page com_palm_universalsearch
+\n
+\section com_palm_universalsearch_remove_optional_search_item removeOptionalSearchItem
+
+\e Public.
+
+com.palm.universalsearch/removeOptionalSearchItem
+
+Remove one optional search item.
+
+\subsection com_palm_universalsearch_remove_optional_search_item_syntax Syntax:
+\code
+{
+    "id": string
+}
+\endcode
+
+\param id Id of the search item to remove.
+
+\subsection com_palm_universalsearch_remove_optional_search_item_returns Returns:
+\code
+{
+    "returnValue": boolean,
+    "errorMessage": string
+}
+\endcode
+
+\param returnValue Indicates if the call was succesful.
+\param errorMessage Describes the error if call was not succesful.
+
+\subsection com_palm_universalsearch_remove_optional_search_item_examples Examples:
+\code
+luna-send -n 1 -f luna://com.palm.universalsearch/removeOptionalSearchItem '{ "id": "notAValidId" }'
+\endcode
+
+Example response for a succesful call:
+\code
+{
+    "returnValue": true
+}
+\endcode
+
+Example response for a failed call:
+\code
+{
+    "returnValue": false,
+    "errorMessage": "Unable to clear item"
+}
+\endcode
+*/
 static bool cbRemoveOptionalSearchItem(LSHandle* lshandle, LSMessage *message, void *user_data)
 {
     LSError lserror;
