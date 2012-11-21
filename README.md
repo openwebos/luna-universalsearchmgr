@@ -1,6 +1,6 @@
 Summary
 =======
-Contains the Just Type Service Component supporting the Universal Search feature.
+Open webOS "Just Type" service component, supporting the Universal Search feature.
 
 LunaUniversalSearchMgr
 ======================
@@ -27,14 +27,34 @@ How to Build on Linux
 
 ### Building the latest "stable" version
 
-Clone the repository openwebos/build-webos and follow the instructions in the README file to make a specific component:
-        make luna-universalsearchmgr
+Clone the repository at http://www.github.com/openwebos/build-webos and follow the instructions in that README to build Open webOS.
 
+To build or rebuild just this component, if your build-webos directory is ~/openwebos/build-webos, use:
+
+    cd ~/openwebos/build-webos
+    make cleanall-luna-universalsearchmgr luna-universalsearchmgr
+    
+The resulting IPK package will be in your BUILD directory, under deploy/ipk/<architecture>, such as this example:
+
+    ~/openwebos/build-webos/BUILD-qemux86/deploy/ipk/i586/luna-universalsearchmgr_2.0.0-1.00-r5_i586.ipk
+    
+You can transfer this to your existing image, and install it by logging into the Open webOS system, and using:
+
+    ipkg install /path/to/luna-universalsearchmgr_2.0.0-1.00-r5_i586.ipk
+    
+Or you can create a completely new Open webOS image with:
+
+    make clean-webos-image webos-image
+    
 ### Building your local clone
 
-*  Follow the directions to build the latest "stable" version
-*  Follow the directions to configure the build to use your local clone
+After successfully building the latest stable version, you may configure build-webos to build this component from your own local clone.
 
+You can specify what directory to use as the local source inside the file "global-webos.conf" in your home directory, or within the file "webos-local.conf" within the build-webos directory, by adding the following:
+
+    S_pn-luna-universalsearchmgr = "/path/to/my/luna-universalsearchmgr"
+    
+Then follow the instructions above to rebuild and install this package.
 
 # Copyright and License Information
 
