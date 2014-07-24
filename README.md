@@ -1,6 +1,6 @@
 Summary
 =======
-Open webOS "Just Type" service component, supporting the Universal Search feature.
+Open webOS 'Just Type' service component, supporting the Universal Search feature.
 
 LunaUniversalSearchMgr
 ======================

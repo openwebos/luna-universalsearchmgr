@@ -21,7 +21,7 @@ cmake_minimum_required(VERSION 2.8.7)
 project(LunaUniversalSearchMgr CXX)
 
 include(webOS/webOS)
-webos_modules_init(1 0 0 QUALIFIER RC2)
+webos_modules_init(1 0 0 QUALIFIER RC7)
 webos_component(2 0 0)
 
 include(FindPkgConfig)
