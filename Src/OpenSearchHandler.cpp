@@ -288,7 +288,7 @@ bool OpenSearchHandler::parseXml (const std::string& xmlFile, bool scanningDir)
    		 	info.imageData = parseImage(info.id, info.imageData);
    		 }    	
     }
-    else if(uriScheme != NULL && strcmp(uriScheme, "http") == 0) {
+    else if(uriScheme != NULL && ((strcmp(uriScheme, "http") == 0) || (strcmp(uriScheme, "https") == 0)) {
     	//It's a url to icon. Download the image. But we don't wait for the download to complete.
     	//So, the assumption here is that download will complete and file will be created in the specified path. If there is a problem then it will default to generic icon.
     	info.imageData = downloadIcon(info.imageData);
