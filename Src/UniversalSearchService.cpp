@@ -2513,7 +2513,7 @@ static bool cbAddOptionalSearchDesc(LSHandle* lshandle, LSMessage *message, void
 		goto done;
 	}
 	
-	if(strcmp(uriScheme, "http") != 0)
+	if((strcmp(uriScheme, "http") != 0) && (strcmp(uriScheme, "https") != 0))
 	{
 		g_debug("Invalid URL Provided");
 		errMsg = "Invalid URL Provided";
