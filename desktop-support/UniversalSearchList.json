@@ -5,7 +5,7 @@
 				 					"category": "search",
 				 					"displayName": "Google",
 				 					"iconFilePath":"/usr/lib/luna/system/luna-applauncher/images/search-icon-google.png",
-				 					"loc_url":"http://www.google.com/search?q=#{searchTerms}",
+				 					"url":"https://www.google.com/search?q=#{searchTerms}",
 				 					"type":"web",
 				 					"enabled":true,
 				 					"version":2
@@ -15,46 +15,37 @@
 				 					"category": "search",
 				 					"displayName": "Wikipedia",
 				 					"iconFilePath":"/usr/lib/luna/system/luna-applauncher/images/search-icon-wikipedia.png",
-				 					"url":"http://en.wikipedia.org/wiki/Special:Search?search=#{searchTerms}",
-				 					"type":"web",
-				 					"enabled":true
-				 				},
-				 				{ 
-				 					"id": "twitter", 
-				 					"category": "search",
-				 					"displayName": "Twitter",
-				 					"iconFilePath":"/usr/lib/luna/system/luna-applauncher/images/search-icon-twitter.png",
-				 					"url":"http://search.twitter.com/search?q=#{searchTerms}",
+				 					"url":"https://en.wikipedia.org/wiki/Special:Search?search=#{searchTerms}",
 				 					"type":"web",
 				 					"enabled":true
 				 				},
 				 				{
+									"id": "cnn",
 									"category": "search",
 									"displayName": "CNN",
-									"enabled": false,
 									"iconFilePath": "/usr/lib/luna/system/luna-applauncher/images/search-icon-cnn.png",
-									"id": "cnn",
-									"type": "web",
 									"url": "http://www.cnn.com/search/?query=#{searchTerms}"
+									"type": "web",
+									"enabled": false,
 								},
 								{
+									"id": "amazon",
 									"category": "search",
 									"displayName": "Amazon",
-									"enabled": false,
 									"iconFilePath": "/usr/lib/luna/system/luna-applauncher/images/search-icon-amazon.png",
-									"id": "amazon",
+									"url": "https://www.amazon.com/s/?k=#{searchTerms}",
 									"type": "web",
-									"url": "http://www.amazon.com/s/?k=#{searchTerms}",
+									"enabled": false,
 									"version":2
 								},
 								{
+									"id": "imdb",
 									"category": "search",
 									"displayName": "IMDb",
-									"enabled": false,
 									"iconFilePath": "/usr/lib/luna/system/luna-applauncher/images/search-icon-imdb.png",
-									"id": "imdb",
-									"type": "web",
 									"url": "http://www.imdb.com/find?q=#{searchTerms}",
+									"type": "web",
+									"enabled": false,
 									"version":2
 								}
                			],
