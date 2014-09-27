@@ -6,6 +6,7 @@
 				 					"displayName": "Google",
 				 					"iconFilePath":"/usr/lib/luna/system/luna-applauncher/images/search-icon-google.png",
 				 					"url":"https://www.google.com/search?q=#{searchTerms}",
+				 					"suggestURL":"https://encrypted.google.com/complete/search?hl=en&output=firefox&q=#{searchTerms}",
 				 					"type":"web",
 				 					"enabled":true,
 				 					"version":2
@@ -16,6 +17,7 @@
 				 					"displayName": "Wikipedia",
 				 					"iconFilePath":"/usr/lib/luna/system/luna-applauncher/images/search-icon-wikipedia.png",
 				 					"url":"https://en.wikipedia.org/wiki/Special:Search?search=#{searchTerms}",
+				 					"suggestURL":"https://en.wikipedia.org/w/api.php?action=opensearch&search=#{searchTerms}&limit=8&namespace=0&format=json",
 				 					"type":"web",
 				 					"enabled":true
 				 				},
